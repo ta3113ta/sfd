@@ -26,7 +26,7 @@ struct Config {
 }
 
 fn exec(config: Config) -> Result<()> {
-	println!("deploying {} to {}", config.function, config.stage);
+    println!("deploying {} to {}", config.function, config.stage);
 
     cmd!(
         "sls",
@@ -50,28 +50,27 @@ pub fn run() -> Result<()> {
     let functions = collect_function_name(doc);
     let stages = &["dev", "prod"];
 
-    let theme = ColorfulTheme::default();
-
-    let function = Select::with_theme(&theme)
-        .with_prompt("Select function")
-        .items(&functions)
-        .interact()
-        .unwrap();
-
-    let stage = Select::with_theme(&theme)
-        .with_prompt("Select stage")
-        .items(stages)
-        .interact()
-        .unwrap();
-
-    let config = Config {
-        function: functions[function].clone(),
-        stage: stages[stage].to_string(),
-    };
+    let function = display("Select function".to_string(), &functions);
+    let stage = display("Select stage".to_string(), stages);
+    let config = Config { function, stage };
 
     exec(config)?;
 
     Ok(())
+}
+
+fn display<T>(display_prompt: String, list: &[T]) -> String
+where
+    T: ToString,
+{
+    let theme = ColorfulTheme::default();
+    let selected = Select::with_theme(&theme)
+        .with_prompt(display_prompt)
+        .items(list)
+        .interact()
+        .unwrap();
+
+    list[selected].to_string()
 }
 
 #[cfg(test)]
