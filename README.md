@@ -3,7 +3,7 @@
 
 The command-line utility for the deploy Lambda function
 
-![CI](https://github.com/ta3113ta/sfd/actions/workflows/rust.yml/badge.svg)
+![CI](https://github.com/ta3113ta/sfd/actions/workflows/CI.yml/badge.svg)
 
 </div>
 
