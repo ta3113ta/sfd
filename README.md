@@ -3,6 +3,8 @@
 
 The command-line utility for the deploy Lambda function
 
+![CI](https://github.com/ta3113ta/sfd/actions/workflows/rust.yml/badge.svg)
+
 </div>
 
 # Usage
