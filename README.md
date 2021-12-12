@@ -8,7 +8,7 @@ The command-line utility for the deploy Lambda function
 </div>
 
 # Usage
-You can use the sfd command-line utility to deploy the Lambda function.
+You can use the sfd by executing the following command:
 
 ```bash
 $ sfd
