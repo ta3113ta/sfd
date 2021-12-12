@@ -17,8 +17,8 @@ $ sfd
 
 # installation
 
-### Cargo (from source)
-Go to the directory and run the following command:
+## Compile from source (cargo): 
+To compile from source, download from the Git repository (git clone), then run:
 ```bash
 $ cargo install --path .
 ```
