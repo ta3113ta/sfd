@@ -1,10 +1,10 @@
-use anyhow::{Context, Result};
+use anyhow::{anyhow, Context, Result};
 use dialoguer::{theme::ColorfulTheme, Select};
 use duct::cmd;
 use std::fs;
 use yaml_rust::{yaml::Yaml, YamlLoader};
 
-pub fn collect_function_name(doc: &Yaml) -> Vec<String> {
+fn collect_function_name(doc: &Yaml) -> Vec<String> {
     let mut functions = Vec::new();
 
     match &doc["functions"] {
@@ -50,6 +50,10 @@ pub fn run() -> Result<()> {
     let functions = collect_function_name(doc);
     let stages = &["dev", "prod"];
 
+    if functions.is_empty() {
+        return Err(anyhow!("can not found functions"));
+    }
+
     let function = display("Select function".to_string(), &functions);
     let stage = display("Select stage".to_string(), stages);
     let config = Config { function, stage };
@@ -78,7 +82,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn read_file() {
+    fn must_found_functions() {
         let contents = "
 functions:
   paymentValidate:
@@ -86,10 +90,25 @@ functions:
   paymentUpdate:
     handler: src/controllers/paymentControllers.paymentUpdate
 ";
-
         let docs = YamlLoader::load_from_str(&contents).unwrap();
         let doc = &docs[0];
         let expected = vec!["paymentValidate", "paymentUpdate"];
+        let result = collect_function_name(doc);
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn not_found_functions() {
+        let contents = "
+paymentValidate:
+  - a1
+paymentUpdate:
+  - b2
+";
+        let docs = YamlLoader::load_from_str(&contents).unwrap();
+        let doc = &docs[0];
+        let expected: Vec<String> = vec![];
         let result = collect_function_name(doc);
 
         assert_eq!(result, expected);
