@@ -1,7 +1,11 @@
+use structopt::StructOpt;
+
 mod cmd;
+mod opt;
 
 fn main() {
-    if let Err(e) = cmd::run() {
+	let opt = opt::Opt::from_args();
+    if let Err(e) = cmd::run(opt) {
         eprintln!("{}", e);
         std::process::exit(1);
     };
