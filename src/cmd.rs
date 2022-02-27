@@ -52,7 +52,7 @@ fn deploy_funciton(config: Config) -> Result<()> {
 }
 
 pub fn run(opt: Opt) -> Result<()> {
-	let content = fs::read_to_string("serverless.yml").context("can not found serverless.yml")?;
+    let content = fs::read_to_string("serverless.yml").context("can not found serverless.yml")?;
 
     if opt.all {
         deploy_all_stage()?;
